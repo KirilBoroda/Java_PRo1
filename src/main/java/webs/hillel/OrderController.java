@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
     private OrderRepository orderRepository;
 
@@ -14,22 +14,22 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Order addOrder(@RequestBody Order order) {
         return orderRepository.addOrder(order);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable int id) {
-        Order order = orderRepository.getOrderById(id);
-        if (order != null) {
+        try {
+            Order order = orderRepository.getOrderById(id);
             return ResponseEntity.ok(order);
-        } else {
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<Order> getAllOrders() {
         return orderRepository.getAllOrders();
     }
