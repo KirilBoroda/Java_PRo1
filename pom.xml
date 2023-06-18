@@ -14,21 +14,21 @@
     </properties>
 
     <dependencies>
-        <!-- Hibernate ORM -->
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.6.1.Final</version>
         </dependency>
 
-        <!-- JPA API -->
+
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
             <version>2.2</version>
         </dependency>
 
-        <!-- PostgreSQL JDBC Driver -->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
