@@ -14,10 +14,10 @@ public class HibernateSession {
 
             return configuration.buildSessionFactory();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to build the SessionFactory!");
+            throw new RuntimeException("Failed to build the SessionFactory: " + e.getMessage(), e);
         }
     }
+
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
