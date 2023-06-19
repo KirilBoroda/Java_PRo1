@@ -24,6 +24,6 @@ public class ProductRepository {
         return products.stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()
-                .orElse(null); // If product with given ID not found
+                .orElse(null);
     }
 }
