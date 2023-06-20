@@ -12,7 +12,7 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false,unique = true)
     private String email;
 
     public Student() {
