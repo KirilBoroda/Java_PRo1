@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
+@Import(AppConfig.class)
 public class ShoppingCartApp implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
@@ -93,19 +95,16 @@ public class ShoppingCartApp implements CommandLineRunner {
     }
 
     private void viewAllProducts() {
-        logger.info("All products:");
-
-        List<Product> allProducts = productRepository.getAllProducts();
-        if (allProducts.isEmpty()) {
-            logger.info("No products found.");
+        logger.info("Cart contents:");
+        List<Product> cartProducts = shoppingCart.getProducts();
+        if (cartProducts.isEmpty()) {
+            logger.info("Cart is empty.");
         } else {
-            for (Product product : allProducts) {
+            for (Product product : cartProducts) {
                 logger.info(product.getId() + " - " + product.getName() + " - $" + product.getPrice());
             }
         }
     }
-    @Bean
-    public Cart shoppingCart() {
-        return new Cart();
-    }
+
+
 }
