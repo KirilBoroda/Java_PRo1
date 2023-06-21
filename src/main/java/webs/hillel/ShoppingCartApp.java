@@ -6,21 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
-import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
-@Import(AppConfig.class)
 public class ShoppingCartApp implements CommandLineRunner {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final Cart shoppingCart;
 
     @Autowired
-    private Cart shoppingCart;
-    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartApp.class);
+    public ShoppingCartApp(ProductRepository productRepository, Cart shoppingCart) {
+        this.productRepository = productRepository;
+        this.shoppingCart = shoppingCart;
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartApp.class);
 
     public static void main(String[] args) {
         SpringApplication.run(ShoppingCartApp.class, args);
@@ -35,8 +35,8 @@ public class ShoppingCartApp implements CommandLineRunner {
             System.out.println("1. Add product to cart");
             System.out.println("2. Remove product from cart");
             System.out.println("3. View cart");
-            System.out.println("5. View all");
             System.out.println("4. Exit");
+
             System.out.print("Enter your choice: ");
             input = scanner.nextLine();
 
@@ -52,10 +52,7 @@ public class ShoppingCartApp implements CommandLineRunner {
                     break;
                 case "4":
                     System.out.println("Exiting the program.");
-                    break;
-                case "5":
-                    viewAllProducts();
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -68,10 +65,10 @@ public class ShoppingCartApp implements CommandLineRunner {
 
         Product product = productRepository.getProductById(productId);
         if (product == null) {
-            logger.info("Product not found.");
+            LOGGER.info("Product not found.");
         } else {
             shoppingCart.addProduct(product);
-            logger.info("Product added to cart.");
+            LOGGER.info("Product added to cart.");
         }
     }
 
@@ -81,30 +78,17 @@ public class ShoppingCartApp implements CommandLineRunner {
 
         boolean removed = shoppingCart.removeProduct(productId);
         if (removed) {
-            logger.info("Product removed from cart.");
+            LOGGER.info("Product removed from cart.");
         } else {
-            logger.info("Product not found in cart.");
+            LOGGER.info("Product not found in cart.");
         }
     }
 
     private void viewCart() {
-        logger.info("Cart contents:");
+        LOGGER.info("Cart contents:");
         for (Product product : shoppingCart.getProducts()) {
-            logger.info(product.getName() + " - $" + product.getPrice());
+            LOGGER.info(product.getName() + " - $" + product.getPrice());
         }
     }
-
-    private void viewAllProducts() {
-        logger.info("Cart contents:");
-        List<Product> cartProducts = shoppingCart.getProducts();
-        if (cartProducts.isEmpty()) {
-            logger.info("Cart is empty.");
-        } else {
-            for (Product product : cartProducts) {
-                logger.info(product.getId() + " - " + product.getName() + " - $" + product.getPrice());
-            }
-        }
-    }
-
-
+    
 }
