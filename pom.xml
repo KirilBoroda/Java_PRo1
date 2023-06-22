@@ -41,8 +41,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-
-            <!-- Spring Boot Maven plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
