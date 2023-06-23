@@ -45,14 +45,18 @@ public class CartDao {
     }
 
     public Cart getCartById(int cartId) {
-        String sql = "SELECT product_id FROM CartProducts WHERE cart_id = ?";
-        List<Integer> productIds = jdbcTemplate.queryForList(sql, new Object[]{cartId}, Integer.class);
+        String sql = "SELECT * FROM Carts WHERE cart_id = ?";
+        Cart cart = jdbcTemplate.queryForObject(sql, new Object[]{cartId}, new CartRowMapper());
 
-        Cart cart = new Cart(cartId);
+        String productSql = "SELECT product_id FROM CartProducts WHERE cart_id = ?";
+        List<Integer> productIds = jdbcTemplate.queryForList(productSql, new Object[]{cartId}, Integer.class);
+
         cart.setProductIds(productIds);
 
         return cart;
     }
+
+
 
 
 
