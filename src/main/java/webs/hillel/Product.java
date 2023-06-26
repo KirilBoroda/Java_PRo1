@@ -1,5 +1,3 @@
-// Product.java
-
 package webs.hillel;
 
 import java.math.BigDecimal;
