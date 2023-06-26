@@ -1,4 +1,3 @@
-// ProductDao.java
 
 package webs.hillel;
 
