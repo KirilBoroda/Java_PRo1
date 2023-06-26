@@ -27,7 +27,6 @@ public class CartDao {
     }
 
 
-
     public void removeFromCart(int cartId, int productId) {
         String sql = "DELETE FROM CartProducts WHERE cart_id = ? AND product_id = ?";
         jdbcTemplate.update(sql, cartId, productId);
@@ -38,10 +37,10 @@ public class CartDao {
         int count = jdbcTemplate.queryForObject(sql, Integer.class, cartId, productId);
         return count > 0;
     }
+
     public void deleteCartById(int cartId) {
         String sql = "DELETE FROM Carts WHERE cart_id = ?";
         jdbcTemplate.update(sql, cartId);
-        System.out.println("Cart deleted from the database.");
     }
 
     public Cart getCartById(int cartId) {
@@ -55,10 +54,6 @@ public class CartDao {
 
         return cart;
     }
-
-
-
-
 
 
 }
