@@ -1,5 +1,3 @@
-// ProductRowMapper.java
-
 package webs.hillel;
 
 import org.springframework.jdbc.core.RowMapper;
