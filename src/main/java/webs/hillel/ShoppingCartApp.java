@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @SpringBootApplication
 public class ShoppingCartApp implements CommandLineRunner {
@@ -26,42 +28,59 @@ public class ShoppingCartApp implements CommandLineRunner {
         SpringApplication.run(ShoppingCartApp.class, args);
     }
 
+    private void printMenu() {
+        String menu = """
+            1. Add product to cart
+            2. Remove product from cart
+            3. View cart
+            4. Exit
+            Enter your choice:""";
+        LOGGER.info(menu);
+    }
+
     @Override
     public void run(String... args) {
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input;
 
         while (true) {
-            System.out.println("1. Add product to cart");
-            System.out.println("2. Remove product from cart");
-            System.out.println("3. View cart");
-            System.out.println("4. Exit");
+            printMenu();
 
-            System.out.print("Enter your choice: ");
-            input = scanner.nextLine();
+            try {
+                input = reader.readLine();
+            } catch (IOException e) {
+                LOGGER.error("An error occurred while reading input.", e);
+                return;
+            }
 
             switch (input) {
                 case "1":
-                    addProductToCart(scanner);
+                    addProductToCart(reader);
                     break;
                 case "2":
-                    removeProductFromCart(scanner);
+                    removeProductFromCart(reader);
                     break;
                 case "3":
                     viewCart();
                     break;
                 case "4":
-                    System.out.println("Exiting the program.");
+                    LOGGER.info("Exiting the program.");
                     return;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    LOGGER.info("Invalid choice. Please try again.");
             }
         }
     }
 
-    private void addProductToCart(Scanner scanner) {
-        System.out.print("Enter product ID: ");
-        int productId = Integer.parseInt(scanner.nextLine());
+    private void addProductToCart(BufferedReader reader) {
+        LOGGER.info("Enter product ID: ");
+        int productId;
+        try {
+            productId = Integer.parseInt(reader.readLine());
+        } catch (IOException | NumberFormatException e) {
+            LOGGER.error("Invalid product ID entered.", e);
+            return;
+        }
 
         Product product = productRepository.getProductById(productId);
         if (product == null) {
@@ -72,9 +91,15 @@ public class ShoppingCartApp implements CommandLineRunner {
         }
     }
 
-    private void removeProductFromCart(Scanner scanner) {
-        System.out.print("Enter product ID: ");
-        int productId = Integer.parseInt(scanner.nextLine());
+    private void removeProductFromCart(BufferedReader reader) {
+        LOGGER.info("Enter product ID: ");
+        int productId;
+        try {
+            productId = Integer.parseInt(reader.readLine());
+        } catch (IOException | NumberFormatException e) {
+            LOGGER.error("Invalid product ID entered.", e);
+            return;
+        }
 
         boolean removed = shoppingCart.removeProduct(productId);
         if (removed) {
@@ -90,5 +115,4 @@ public class ShoppingCartApp implements CommandLineRunner {
             LOGGER.info(product.getName() + " - $" + product.getPrice());
         }
     }
-    
 }
