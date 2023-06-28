@@ -27,9 +27,6 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
-        <!-- Additional dependencies -->
-        <!-- Add any additional dependencies your application requires -->
-
     </dependencies>
 
     <build>
@@ -44,8 +41,6 @@
                     <target>15</target>
                 </configuration>
             </plugin>
-
-            <!-- Spring Boot Maven plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
