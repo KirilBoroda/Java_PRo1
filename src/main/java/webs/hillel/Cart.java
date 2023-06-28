@@ -20,7 +20,6 @@ public class Cart {
     public void addProduct(Product product) {
         products.add(product);
     }
-
     public boolean removeProduct(int id) {
         Iterator<Product> iterator = products.iterator();
         while (iterator.hasNext()) {
