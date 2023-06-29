@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 @Component
 public class ProductRowMapper implements RowMapper<Product> {
-
     @Override
     public Product mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         int id = resultSet.getInt("id");

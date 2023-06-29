@@ -26,7 +26,7 @@ public class ProductDao {
     public void addProduct(Product product) {
         String sql = "INSERT INTO Products (id, name, price) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice());
-        LOGGER.info("Product added to the database.");
+        LOGGER.info("Product added  to the database.");
     }
 
     public void deleteProductById(int productId) {

@@ -27,7 +27,6 @@ public class Cart {
     public void setCartId(int cartId) {
         this.cartId = cartId;
     }
-
     @Override
     public String toString() {
         return "Cart{" +

@@ -13,7 +13,6 @@ public class CartRowMapper implements RowMapper<Cart> {
     public Cart mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         int cartId = resultSet.getInt("cart_id");
         Cart cart = new Cart(cartId);
-
         return cart;
     }
 }
