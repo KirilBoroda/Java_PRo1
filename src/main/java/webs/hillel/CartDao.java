@@ -2,6 +2,7 @@ package webs.hillel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,10 +10,12 @@ import java.util.List;
 @Repository
 public class CartDao {
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Cart> cartRowMapper;
 
     @Autowired
-    public CartDao(JdbcTemplate jdbcTemplate) {
+    public CartDao(JdbcTemplate jdbcTemplate, RowMapper<Cart> cartRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.cartRowMapper = cartRowMapper;
     }
 
     public void addCart(Cart cart) {
@@ -45,7 +48,7 @@ public class CartDao {
 
     public Cart getCartById(int cartId) {
         String sql = "SELECT * FROM Carts WHERE cart_id = ?";
-        Cart cart = jdbcTemplate.queryForObject(sql, new Object[]{cartId}, new CartRowMapper());
+        Cart cart = jdbcTemplate.queryForObject(sql, new Object[]{cartId}, cartRowMapper);
 
         String productSql = "SELECT product_id FROM CartProducts WHERE cart_id = ?";
         List<Integer> productIds = jdbcTemplate.queryForList(productSql, new Object[]{cartId}, Integer.class);
@@ -54,6 +57,4 @@ public class CartDao {
 
         return cart;
     }
-
-
 }
